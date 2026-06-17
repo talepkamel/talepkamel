@@ -285,5 +285,151 @@ for t in main.tables:
 for t in sidebar.tables:
     no_borders(t)
 
+
+# ===== FULL-WIDTH CONTENT (PAGES 2 & 3) ======================================
+LEFT_MARGIN = 0.7
+RIGHT_TAB = 7.5
+
+
+def add_page_banner():
+    """Full-width navy banner used at the top of pages 2 and 3."""
+    t = doc.add_table(rows=1, cols=1)
+    t.allow_autofit = False
+    c = t.rows[0].cells[0]
+    set_cell_width(c, 8.27)
+    set_cell_bg(c, NAVY_HEX)
+    set_cell_margins(c, top=170, start=int(LEFT_MARGIN * 1440),
+                     bottom=170, end=500)
+    p = c.paragraphs[0]
+    space(p, before=0, after=0)
+    add_run(p, "SACHA DUBOIS", size=18, bold=True, color=WHITE, font=HEAD_FONT)
+    p2 = c.add_paragraph()
+    space(p2, before=0, after=0)
+    add_run(p2, "CHARGÉE DE PROJET", size=10.5, color=WHITE, caps=True,
+            font=HEAD_FONT)
+    no_borders(t)
+    sp = doc.add_paragraph()
+    space(sp, before=0, after=6)
+
+
+def doc_section_title(text):
+    p = doc.add_paragraph()
+    pf = p.paragraph_format
+    pf.left_indent = Inches(LEFT_MARGIN)
+    pf.right_indent = Inches(LEFT_MARGIN)
+    space(p, before=12, after=8)
+    add_run(p, text, size=16, bold=True, color=NAVY, caps=True, font=HEAD_FONT)
+
+
+def doc_entry(title, org, date):
+    p = doc.add_paragraph()
+    pf = p.paragraph_format
+    pf.left_indent = Inches(LEFT_MARGIN)
+    pf.right_indent = Inches(LEFT_MARGIN)
+    pf.tab_stops.add_tab_stop(Inches(RIGHT_TAB), WD_TAB_ALIGNMENT.RIGHT)
+    space(p, before=8, after=0, line=1.0)
+    add_run(p, title, size=12.5, bold=True, color=NAVY, font=HEAD_FONT)
+    add_run(p, "\t" + date, size=10, italic=True, color=LIGHT_BLUE)
+    p2 = doc.add_paragraph()
+    p2.paragraph_format.left_indent = Inches(LEFT_MARGIN)
+    space(p2, before=0, after=2, line=1.0)
+    add_run(p2, org, size=11.5, italic=True, color=LIGHT_BLUE)
+
+
+def doc_bullet(text):
+    p = doc.add_paragraph()
+    pf = p.paragraph_format
+    pf.left_indent = Inches(LEFT_MARGIN + 0.28)
+    pf.right_indent = Inches(LEFT_MARGIN)
+    pf.first_line_indent = Inches(-0.18)
+    space(p, before=0, after=2, line=1.0)
+    add_run(p, "•  ", size=11, color=LIGHT_BLUE)
+    add_run(p, text, size=11, color=LIGHT_BLUE)
+
+
+def doc_para(text):
+    p = doc.add_paragraph()
+    pf = p.paragraph_format
+    pf.left_indent = Inches(LEFT_MARGIN)
+    pf.right_indent = Inches(LEFT_MARGIN)
+    space(p, before=0, after=6, line=1.15)
+    add_run(p, text, size=11, color=NAVY)
+
+
+def doc_label(label, value):
+    p = doc.add_paragraph()
+    pf = p.paragraph_format
+    pf.left_indent = Inches(LEFT_MARGIN)
+    pf.right_indent = Inches(LEFT_MARGIN)
+    space(p, before=0, after=3, line=1.1)
+    add_run(p, label + " : ", size=11, bold=True, color=NAVY)
+    add_run(p, value, size=11, color=LIGHT_BLUE)
+
+
+# ----- PAGE 2 ----------------------------------------------------------------
+doc.add_page_break()
+add_page_banner()
+
+doc_section_title("Profil Professionnel")
+doc_para(
+    "Chargée de projet rigoureuse et orientée résultats, forte de plusieurs "
+    "années d'expérience dans la planification, la coordination et le pilotage "
+    "de projets pluridisciplinaires. Reconnue pour ma capacité à fédérer les "
+    "équipes, à gérer les budgets et les délais, et à transformer des objectifs "
+    "stratégiques en livrables concrets. À la recherche de nouveaux défis "
+    "permettant de mettre à profit mon expertise en gestion de projet et en "
+    "amélioration continue.")
+
+doc_section_title("Domaines d'Expertise")
+doc_bullet("Planification stratégique et gestion de portefeuille de projets")
+doc_bullet("Pilotage budgétaire, suivi des coûts et reporting financier")
+doc_bullet("Gestion des risques, des parties prenantes et de la qualité")
+doc_bullet("Méthodologies Agile (Scrum, Kanban) et cycle en V")
+doc_bullet("Animation d'équipes et conduite du changement")
+
+doc_section_title("Projets Marquants")
+doc_entry("Déploiement d'un outil de gestion collaboratif",
+          "Really Great Company - Any City", "2022 - 2023")
+doc_bullet("Pilotage d'un projet de 12 mois mobilisant une équipe de 15 personnes.")
+doc_bullet("Réduction de 25 % des délais de traitement des demandes internes.")
+doc_bullet("Respect du budget initial et livraison conforme au cahier des charges.")
+
+doc_entry("Réorganisation des processus internes",
+          "Really Great Company - Any City", "2021")
+doc_bullet("Cartographie et optimisation de 8 processus métier clés.")
+doc_bullet("Mise en place d'indicateurs de performance et de tableaux de bord.")
+doc_bullet("Amélioration de la satisfaction des équipes mesurée par enquête interne.")
+
+# ----- PAGE 3 ----------------------------------------------------------------
+doc.add_page_break()
+add_page_banner()
+
+doc_section_title("Certifications")
+doc_bullet("PMP – Project Management Professional (PMI)")
+doc_bullet("PRINCE2 Foundation & Practitioner")
+doc_bullet("Professional Scrum Master I (PSM I)")
+
+doc_section_title("Formations Complémentaires")
+doc_entry("Certificat en Gestion Financière de Projet",
+          "Really Great School - Any City", "2019")
+doc_bullet("Construction et suivi de budgets, analyse des écarts et reporting.")
+
+doc_entry("Atelier Leadership et Management d'Équipe",
+          "Really Great Institute - Any City", "2018")
+doc_bullet("Techniques d'animation, communication et résolution de conflits.")
+
+doc_section_title("Réalisations Clés")
+doc_bullet("Livraison de plus de 20 projets dans les délais et le budget impartis.")
+doc_bullet("Gestion d'un portefeuille de projets représentant un budget annuel conséquent.")
+doc_bullet("Mise en place d'une méthodologie de suivi adoptée par l'ensemble des équipes.")
+
+doc_section_title("Références")
+doc_label("Jordan Smith", "Directeur de Projet, Really Great Company")
+doc_label("Contact", "123-456-7890 · hello@reallygreatsite.com")
+doc_para(" ")
+doc_label("Alex Martin", "Responsable des Opérations, Really Great Company")
+doc_label("Contact", "123-456-7891 · contact@reallygreatsite.com")
+
+
 doc.save("Sacha_Dubois_CV.docx")
-print("Saved Sacha_Dubois_CV.docx")
+print("Saved Sacha_Dubois_CV.docx (3 pages)")
